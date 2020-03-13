@@ -17,8 +17,8 @@ export class UserService {
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
-
-    const createdUser = new this.userModel(userDTO);
+    let createdUser = new this.userModel(userDTO);
+    createdUser.user_name = createdUser.email.split('@')[0]
     await createdUser.save();
     return this.sanitizeUser(createdUser);
   }
@@ -46,6 +46,11 @@ export class UserService {
   async findByPayload(payload: Payload) {
     const { email } = payload;
     return await this.userModel.findOne({ email });
+  }
+
+  async findByUserName(payload: string) {
+    const user_name = payload;
+    return await this.userModel.findOne({ user_name });
   }
 
   sanitizeUser(user: User) {

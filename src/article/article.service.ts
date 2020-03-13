@@ -11,12 +11,12 @@ export class ArticleService {
   constructor(@InjectModel('Article') private articleModel: Model<Article>) { }
 
   async findAll(resPerPage, page): Promise<Article[]> {
-    console.log('findAll', resPerPage, page)
-    return await this.articleModel.find().skip((resPerPage * page) - resPerPage).limit(resPerPage).populate({ path: 'author', select: 'email' });
+    // console.log('findAll', resPerPage, page)
+    return await this.articleModel.find().skip((resPerPage * page) - resPerPage).limit(resPerPage).populate('author');
   }
 
   async findCount(): Promise<number> {
-    return await this.articleModel.find().count();
+    return await this.articleModel.find().countDocuments();
   }
 
   async findByAuthor(userId: string): Promise<Article[]> {

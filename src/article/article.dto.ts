@@ -4,7 +4,9 @@ export interface CreateArticleDTO {
   image: string;
   description: string;
   rating: number;
-  
+}
+
+export interface SlackArticleDTO {
   token: string;
   team_id: string;
   team_domain: string;
@@ -17,6 +19,7 @@ export interface CreateArticleDTO {
   response_url: string;
   trigger_id: string;
 }
+
 
 export interface RateArticleDTO {
   action: string;

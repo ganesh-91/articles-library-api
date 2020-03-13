@@ -1,5 +1,5 @@
 export interface Payload {
-  username?: string;
+  user_name?: string;
   iat?: number;
   expiresIn?: string;
   nickname?: string;

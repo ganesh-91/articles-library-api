@@ -100,6 +100,7 @@ export class ArticleController {
       c.queue(mySubString);
     });
     await promise.then((res: string) => {
+      data.url = mySubString;
       data.title = res;
     }).catch((err) => {
       console.log('err', err)

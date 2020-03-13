@@ -82,7 +82,13 @@ export class ArticleController {
       trigger_id: ''
     }
     console.log('article', article)
-    console.log('article.text.url', article.text.split(':'))
+    // console.log('article.text.url', article.text.split(':'))
+    let mySubString = article.text.substring(
+      article.text.lastIndexOf("+<") + 2,
+      article.text.lastIndexOf("+>")
+    );
+
+    console.log('mySubString',mySubString)
 
     let promise = new Promise(function (resolve, reject) {
       // executor (the producing code, "singer")
@@ -99,7 +105,7 @@ export class ArticleController {
           done();
         }
       });
-      c.queue(url);
+      c.queue(mySubString);
     });
     await promise.then((res: string) => {
       data = article;

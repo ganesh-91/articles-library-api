@@ -56,7 +56,7 @@ export class ArticleController {
   }
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async create(
     @Body() article: CreateArticleDTO,
     @User() user: UserDocument,
@@ -67,8 +67,22 @@ export class ArticleController {
       title: '',
       image: '',
       description: '',
-      rating: 0
+      rating: 0,
+
+      token: '',
+      team_id: '',
+      team_domain: '',
+      channel_id: '',
+      channel_name: '',
+      user_id: '',
+      user_name: '',
+      command: '',
+      text: '',
+      response_url: '',
+      trigger_id: ''
     }
+
+    console.log('article.url', article.url)
 
     let promise = new Promise(function (resolve, reject) {
       // executor (the producing code, "singer")
@@ -94,7 +108,7 @@ export class ArticleController {
       console.log('err', err)
     });
 
-    return await this.articleService.create(data, user);
+    return await { ...this.articleService.create(data, user), article };
   }
 
   @Get(':id')

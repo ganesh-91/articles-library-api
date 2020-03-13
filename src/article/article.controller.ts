@@ -82,7 +82,7 @@ export class ArticleController {
       trigger_id: ''
     }
 
-    console.log('article.url', article)
+    console.log('article.text', article.text)
 
     let promise = new Promise(function (resolve, reject) {
       // executor (the producing code, "singer")

@@ -87,8 +87,8 @@ export class ArticleController {
     await browser.close()
     await title;
     console.log('title',title)
-    data.url = mySubString;
-    data.title = title;
+    data.url = await mySubString;
+    data.title = await title;
 
     return await { ...this.articleService.create(data, user), article };
   }

@@ -33,6 +33,7 @@
     "@nestjs/platform-socket.io": "^6.11.8",
     "@nestjs/websockets": "^6.11.8",
     "bcrypt": "^3.0.4",
+    "cheerio": "^1.0.0-rc.3",
     "crawler": "^1.2.1",
     "dotenv": "^6.2.0",
     "mongoose": "^5.4.20",
@@ -40,6 +41,8 @@
     "passport-jwt": "^4.0.0",
     "puppeteer": "^2.1.1",
     "reflect-metadata": "^0.1.12",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "rxjs": "^6.2.2",
     "typescript": "^3.0.1"
   },

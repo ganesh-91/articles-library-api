@@ -18,11 +18,13 @@ import { User } from '../utilities/user.decorator';
 import { CreateArticleDTO, UpdateArticleDTO, SlackArticleDTO } from './article.dto';
 import { ArticleService } from './article.service';
 import { Response } from "../types/response";
-import * as Crawler from "crawler";
+// import * as Crawler from "crawler";
 import { async } from 'rxjs/internal/scheduler/async';
 import { UserService } from '../shared/user.service';
 // import puppeteer from 'puppeteer';
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
+const rp = require('request-promise');
+const $ = require('cheerio');
 
 @Controller('article')
 export class ArticleController {
@@ -78,22 +80,17 @@ export class ArticleController {
       article.text.lastIndexOf("+>")
     );
 
-    console.log('mySubString',mySubString);
-
-    const browser = await puppeteer.launch({
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-      ],
-    });
-    const page = await browser.newPage()
-    await page.goto(mySubString)
-    const title = await page.title()
-    await browser.close()
-    await title;
-    console.log('title',title)
-    data.url = await mySubString;
-    data.title = await title;
+    // executor (the producing code, "singer")
+    console.log('mySubString', mySubString)
+    rp(mySubString)
+      .then(function (html) {
+        // console.log('potusParse', $('title', html).text())
+        data.url = mySubString;
+        data.title = $('title', html).text();
+      })
+      .catch(function (err) {
+        //handle error
+      });
 
     return await { ...this.articleService.create(data, user), article };
   }

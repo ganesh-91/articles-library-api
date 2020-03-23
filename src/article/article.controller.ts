@@ -21,6 +21,8 @@ import { Response } from "../types/response";
 import * as Crawler from "crawler";
 import { async } from 'rxjs/internal/scheduler/async';
 import { UserService } from '../shared/user.service';
+// import puppeteer from 'puppeteer';
+const puppeteer = require('puppeteer');
 
 @Controller('article')
 export class ArticleController {
@@ -64,8 +66,6 @@ export class ArticleController {
   ): Promise<Article> {
 
     const user = await this.userService.findByUserName(article.user_name);
-    console.log('user_user', user)
-    // const { url } = article;
     let data: CreateArticleDTO = {
       url: '',
       title: '',
@@ -73,40 +73,21 @@ export class ArticleController {
       description: '',
       rating: 0
     }
-    console.log('article', article)
-    // console.log('article.text.url', article.text.split(':'))
     let mySubString = article.text.substring(
       article.text.lastIndexOf("+<") + 2,
       article.text.lastIndexOf("+>")
     );
 
-    console.log('mySubString', mySubString)
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.goto(mySubString)
+    const title = await page.title()
+    await browser.close()
+    await title;
+    data.url = mySubString;
+    data.title = title;
 
-    let promise = new Promise(function (resolve, reject) {
-      // executor (the producing code, "singer")
-      var c = new Crawler({
-        maxConnections: 10,
-        callback: function (error, res, done) {
-          if (error) {
-            reject(error)
-          } else {
-            var $ = res.$;
-            console.log($("domain").text())
-            resolve($("title").text())
-          }
-          done();
-        }
-      });
-      c.queue(mySubString);
-    });
-    await promise.then((res: string) => {
-      data.url = mySubString;
-      data.title = res;
-    }).catch((err) => {
-      console.log('err', err)
-    });
-
-    return await this.articleService.create(data, user);
+    return await { ...this.articleService.create(data, user), article };
   }
 
   @Get(':id')

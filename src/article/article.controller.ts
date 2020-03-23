@@ -78,12 +78,15 @@ export class ArticleController {
       article.text.lastIndexOf("+>")
     );
 
+    console.log('mySubString',mySubString);
+
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto(mySubString)
     const title = await page.title()
     await browser.close()
     await title;
+    console.log('title',title)
     data.url = mySubString;
     data.title = title;
 

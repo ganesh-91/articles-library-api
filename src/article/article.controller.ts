@@ -80,17 +80,23 @@ export class ArticleController {
       article.text.lastIndexOf("+>")
     );
 
-    // executor (the producing code, "singer")
-    console.log('mySubString', mySubString)
-    rp(mySubString)
-      .then(function (html) {
-        // console.log('potusParse', $('title', html).text())
-        data.url = mySubString;
-        data.title = $('title', html).text();
-      })
-      .catch(function (err) {
-        //handle error
-      });
+    let promise = new Promise(function (resolve, reject) {
+
+      rp(mySubString)
+        .then(function (html) {
+          resolve( $('title', html).text())
+        })
+        .catch(function (err) {
+          //handle error
+          reject(err)
+        });
+    });
+    await promise.then((res: string) => {
+      data.url = mySubString;
+      data.title = res;
+    }).catch((err) => {
+      console.log('err', err)
+    });
 
     return await { ...this.articleService.create(data, user), article };
   }

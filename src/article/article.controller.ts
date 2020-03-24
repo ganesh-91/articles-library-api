@@ -107,6 +107,7 @@ export class ArticleController {
   async createPost(
     @Body() article: any
   ): Promise<any> {
+    console.log("article here")
     console.log("article",article)
     return await article;
   }

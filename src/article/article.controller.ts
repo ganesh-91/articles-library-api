@@ -105,9 +105,9 @@ export class ArticleController {
   @Post('/post')
   // @UseGuards(AuthGuard('jwt'))
   async createPost(
-    @Body() article: SlackArticleDTO
+    @Body() article: any
   ): Promise<any> {
-    await console.log("article",article)
+    console.log("article",article)
     return await article;
   }
 

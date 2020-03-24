@@ -107,6 +107,7 @@ export class ArticleController {
   async createPost(
     @Body() article: SlackArticleDTO
   ): Promise<any> {
+    console.log("article",article)
     return await article;
   }
 

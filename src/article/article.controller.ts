@@ -84,7 +84,8 @@ export class ArticleController {
 
       rp(mySubString)
         .then(function (html) {
-          resolve( $('title', html).text())
+          resolve($('title', html).text())
+          console.log('object', $('img', html)[0].attribs.src)
         })
         .catch(function (err) {
           //handle error
@@ -99,6 +100,14 @@ export class ArticleController {
     });
 
     return await { ...this.articleService.create(data, user), article };
+  }
+
+  @Post('/post')
+  // @UseGuards(AuthGuard('jwt'))
+  async createPost(
+    @Body() article: SlackArticleDTO
+  ): Promise<any> {
+    return await article;
   }
 
   @Get(':id')
